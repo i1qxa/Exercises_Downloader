@@ -60,6 +60,9 @@ class MainActivity : AppCompatActivity() {
                     if (listOfExercises != null) {
                         lifecycleScope.launch(Dispatchers.IO) {
                             dao.insertListOfExercises(listOfExercises.map { it.toDBItem() })
+                            val db = AppDatabase.getInstance(application)
+                            val cursor = db.query("PRAGMA wal_checkpoint", arrayOf())
+                            cursor.moveToFirst()
                         }
                     }
                 }
